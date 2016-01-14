@@ -101,7 +101,6 @@ for block in blocks:
     if '.csv' in block['href']:
         link = block['href']
         title = block.text.strip()
-        print title
         csvMth = title[:3]
         csvYr = title[-4:]
         csvMth = convert_mth_strings(csvMth.upper())

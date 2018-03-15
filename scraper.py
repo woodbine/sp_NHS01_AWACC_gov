@@ -84,7 +84,7 @@ def convert_mth_strings ( mth_string ):
 #### VARIABLES 1.0
 
 entity_id = "NHS01_AWACC_gov"
-url = "http://www.airedalewharfedalecravenccg.nhs.uk/about-us/transparency/"
+url = "http://www.airedalewharfedalecravenccg.nhs.uk/about-us-/publication-scheme/what-we-spend-and-how-we-spend-it/"
 errors = 0
 data = []
 
@@ -96,13 +96,13 @@ soup = BeautifulSoup(html, 'lxml')
 
 #### SCRAPE DATA
 
-blocks = soup.find('h2', text=re.compile('Spend')).find_all_next('a')
+blocks = soup.find_all('div', 'section')
 for block in blocks:
-    if '.csv' in block['href']:
-        link = block['href']
-        title = block.text.strip()
-        csvMth = title[:3]
-        csvYr = title[-4:]
+    csvYr = block.find('div', 'heading').text
+    months_data = block.find_all('a')
+    for month_data in months_data:
+        link = 'http://www.airedalewharfedalecravenccg.nhs.uk'+month_data['href']
+        csvMth = month_data.text[:3]
         csvMth = convert_mth_strings(csvMth.upper())
         data.append([csvYr, csvMth, link])
 
